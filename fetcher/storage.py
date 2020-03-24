@@ -13,16 +13,16 @@ def get_storage(config):
     
 
 class Storage(object):
-    def store_text(self, text: str, path: str):
+    def put_text(self, text: str, path: str):
         pass
 
-    def load_text(self, path: str) -> str:
+    def get_text(self, path: str) -> str:
         pass
         
-    def store_image(self, url: str, path: str):
+    def put_image(self, url: str, path: str):
         pass
 
-    def load_image(self, path: str) -> str:
+    def get_image(self, path: str) -> str:
         pass
 
 class FileSystemStorage(Storage):
@@ -31,25 +31,25 @@ class FileSystemStorage(Storage):
         self._storage_root = Path(storage_root)
         self._storage_root.mkdir(parents=True, exist_ok=True)
         
-    def store_text(self, text, path):
+    def put_text(self, text, path):
         full_path = self.get_full_path(path)
         full_path.parent.mkdir(parents=True, exist_ok=True)
         with open(full_path, 'w') as f:
             f.write(text)
 
-    def load_text(self, path):
+    def get_text(self, path):
         full_path = self.get_full_path(path)
         with open(full_path, 'r') as f:
             return f.read()
 
-    def store_image(self, url, path):
+    def put_image(self, url, path):
         full_path = self.get_full_path(path)
         full_path.parent.mkdir(parents=True, exist_ok=True)
         with open(full_path, 'wb') as f:
             response = requests.get(url)
             f.write(response.content)
 
-    def load_image(self, path):
+    def get_image(self, path):
         full_path = self.get_full_path(path)
         return full_path
     
