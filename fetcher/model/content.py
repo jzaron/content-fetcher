@@ -5,8 +5,6 @@
 #TODO: extract common code
 
 from fetcher import db
-#is it neeed?
-from fetcher.model.base import Site
 
 class Text(db.Model):
     __tablename__ = 'Text'

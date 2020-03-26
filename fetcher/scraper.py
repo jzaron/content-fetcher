@@ -2,7 +2,7 @@
 @author: jzaron
 """
 
-#TODO: still cases returned image URL is invalid
+#TODO: still many cases returned image URL is invalid
 #TODO: error handling (wrong URL, no access, etc.)
 
 import re
@@ -15,6 +15,7 @@ def get_image_urls(site):
     img_tags = soup.find_all('img')
     base_url = re.sub(r'/[^/]*$', '/', site)
     paths = [img['src'] for img in img_tags]
+    result = []
     for path in paths:
         filename = re.search(r'/?([^/]*[.](jpg|JPG|gif|GIF|png|PNG))$', path)
         url = path
@@ -23,7 +24,8 @@ def get_image_urls(site):
         if not re.match(r'^http', path):
             url = f'{base_url}{path}'
         if filename:
-            yield url
+            result.append(url)
+    return result
 
 def get_text(site):
     html = requests.get(site).text
