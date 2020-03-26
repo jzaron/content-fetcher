@@ -2,6 +2,7 @@
 @author: jzaron
 """
 
+#TODO: still cases returned image URL is invalid
 #TODO: error handling (wrong URL, no access, etc.)
 
 import re
@@ -12,14 +13,15 @@ def get_image_urls(site):
     response = requests.get(site)
     soup = BeautifulSoup(response.text, 'html.parser')
     img_tags = soup.find_all('img')
-    urls = [img['src'] for img in img_tags]
-
-    for url in urls:
-        filename = re.search(r'/([^/]*[.](jpg|JPG|gif|GIF|png|PNG))$', url)
-        if re.match(r'^//', url):
-            url = 'http:' + url
-        if not re.match(r'^http', url):
-            url = '{}{}'.format(site, url)
+    base_url = re.sub(r'/[^/]*$', '/', site)
+    paths = [img['src'] for img in img_tags]
+    for path in paths:
+        filename = re.search(r'/?([^/]*[.](jpg|JPG|gif|GIF|png|PNG))$', path)
+        url = path
+        if re.match(r'^//', path):
+            url = 'http:' + path
+        if not re.match(r'^http', path):
+            url = f'{base_url}{path}'
         if filename:
             yield url
 
