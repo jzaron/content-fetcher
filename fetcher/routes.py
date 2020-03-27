@@ -45,7 +45,6 @@ def get_site(site_id):
     site = operations.get_site(site_id)
     if site:
         import sys
-        print(site.text, file=sys.stderr)
         return jsonify({
             'id' : site.id,
             'url': site.url,
