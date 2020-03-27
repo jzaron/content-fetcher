@@ -3,7 +3,7 @@
 """
 
 #TODO: ensure server with site up other way than sleep()
-#TODO: add more tests
+#TODO: add mooore tests
 
 import http.server
 import json
@@ -43,20 +43,23 @@ def site():
     httpd = socketserver.TCPServer(("", HTTPD_PORT), Handler)
     thread = Thread(target = run_httpd, args = (httpd, ))
     thread.start()
+    sleep(1)
     yield
     httpd.shutdown()
     httpd.server_close()
+    
 
-def test_scrap_page(client, site):
+def test_scrap_text(client, site):
+    client.put(f'/api/v1.0/task/run/scrapText?site={SITE}')
     sleep(1)
-    client.put(f'/api/v1.0/content/text/scrapFromSite?site={SITE}')
-    rv = client.get(f'/api/v1.0/content/text/fromSite?site={SITE}')
-    reference = r'{"text": "\nTest heading\nTest paragraph\n"}'
+    rv = client.get(f'/api/v1.0/content/text/1')
+    reference = r'{"id": 1, "text": "\nTest heading\nTest paragraph\n"}'
     assert json.dumps(rv.get_json()) == reference
 
-def test_scrap_images(client,site):
+def test_scrap_images(client, site):
+    client.put(f'/api/v1.0/task/run/scrapImages?site={SITE}')
     sleep(1)
-    client.put(f'/api/v1.0/content/image/scrapFromSite?site={SITE}')
-    rv = client.get(f'/api/v1.0/content/image/fromSite?site={SITE}')
-    reference = r'{"1": "http://localhost:18080/search.png", "2": "http://localhost:18080/mail.png"}'
-    assert json.dumps(rv.get_json()) == reference
+    rv = client.get(f'/api/v1.0/site/1')
+    reference = r'[1, 2]'
+    assert json.dumps(rv.get_json()['image_ids']) == reference
+

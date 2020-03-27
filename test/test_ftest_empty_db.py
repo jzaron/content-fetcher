@@ -23,13 +23,17 @@ def client():
     os.unlink(db_path)
 
 def test_get_text(client):
-    rv = client.get('/api/v1.0/content/image/fromSite?site=http://example.org')
-    assert rv.data == EMPTY_RESPONSE
-
-def test_list_images(client):
-    rv = client.get('/api/v1.0/content/image/fromSite?site=http://example.org')
+    rv = client.get('/api/v1.0/content/text/1')
     assert rv.data == EMPTY_RESPONSE
 
 def test_get_image(client):
-    rv = client.get('/api/v1.0/content/image/get?id=1')
+    rv = client.get('/api/v1.0/content/image/1')
+    assert rv.data == EMPTY_RESPONSE
+
+def test_get_task(client):
+    rv = client.get('/api/v1.0/task/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+    assert rv.data == EMPTY_RESPONSE
+
+def test_get_site(client):
+    rv = client.get('/api/v1.0/site/1')
     assert rv.data == EMPTY_RESPONSE
