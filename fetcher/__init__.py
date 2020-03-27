@@ -4,11 +4,12 @@
 
 #TODO: add logger
 #TODO: make redis connection configurable
+#TODO: make redis queue is_async configurable, run sync only for tests
 
 from flask import Flask
 from flask_migrate import Migrate
 from redis import Redis
-import rq
+from rq import Queue
 
 from fetcher.config import Config
 from fetcher.db import get_db
@@ -23,7 +24,6 @@ migrate = Migrate(app, db)
 storage = get_storage(Config)
 
 app.redis = Redis()
-app.task_queue = rq.Queue('content-fetcher-tasks', connection=app.redis)
+app.task_queue = Queue(Config.REDIS_QUEUE_NAME, connection=app.redis, is_async=False)
 
 from fetcher import routes
-# from fetcher.model.base import URL
