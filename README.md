@@ -49,6 +49,7 @@ Requires Redis. Easiest way to provide Redis server is to use Docker:
  - Switch to some producion-ready HTTP server
  - Improve image scraping mechanism (handle more image src formats)
  - Implement some different storage than file system (e.g. HDFS, Amazon S3)
+ - Improve code quality
  - Write more tests
  - Reduce Docker image size
  - Write some docker-compose and Helm chart integrating application, Redis, and Redis workers
