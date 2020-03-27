@@ -21,7 +21,7 @@ class DbActions(object):
 
     def get_text_by_id(self, text_id):
         try:
-            text_entry = Text.query.get(text_id)
+            text_entry = self._db.session.query(Text).get(text_id)
         except:
             return None
         else:
@@ -36,7 +36,7 @@ class DbActions(object):
 
     def get_image_by_id(self, image_id):
         try:
-            image_entry = Image.query.get(image_id)
+            image_entry = self._db.session.query(Image).get(image_id)
         except:
             return None
         else:
@@ -51,7 +51,7 @@ class DbActions(object):
 
     def get_task_by_site_and_category(self, site_entry, category):
         try:
-            task_entry = Task.query.with_parent(site_entry).filter(
+            task_entry = self._db.session.query(Task).with_parent(site_entry).filter(
                 Task.category == category).one()
         except:
             return None
@@ -60,14 +60,14 @@ class DbActions(object):
 
     def get_task_by_id(self, task_id):
         try:
-            task_entry = Task.query.get(task_id)
+            task_entry = self._db.session.query(Task).get(task_id)
         except:
             return None
         else:
             return task_entry
 
     def get_or_put_site(self, url):
-        site_entry = self. get_site_by_url(url)
+        site_entry = self.get_site_by_url(url)
         if not site_entry:
             site_entry = Site(url = url)
             self._db.session.add(site_entry)
@@ -76,7 +76,7 @@ class DbActions(object):
     
     def  get_site_by_url(self, url):
         try:
-            site_entry = Site.query.filter(Site.url == url).one()
+            site_entry = self._db.session.query(Site).filter(Site.url == url).one()
         except:
             return None
         else:
@@ -84,7 +84,7 @@ class DbActions(object):
 
     def get_site_by_id(self, site_id):
         try:
-            site_entry = Site.query.get(site_id)
+            site_entry = self._db.session.query(Site).get(site_id)
         except:
             return None
         else:
