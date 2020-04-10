@@ -10,6 +10,7 @@ import json
 import os
 from pathlib import Path
 import pytest
+from rq import Queue
 import socketserver
 import tempfile
 from threading import Thread
@@ -29,6 +30,7 @@ def client():
     db_fd, db_path = tempfile.mkstemp()
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
     app.config['TESTING'] = True
+    app.task_queue = Queue('content-fetcher-tests-tasks', connection=app.redis, is_async=False)
     with app.test_client() as client:
         db.create_all()
         yield client

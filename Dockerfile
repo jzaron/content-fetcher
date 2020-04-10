@@ -12,16 +12,18 @@ RUN groupadd -g 1000 app \
  && chown -R 1000:1000 "$STORAGE_DIR"
 
 WORKDIR "$APP_DIR"
-ADD --chown=1000:1000 fetcher.py requirements.txt ./
+ADD --chown=1000:1000 requirements.txt ./
+RUN pip install -r requirements.txt && rm -r /root/.cache
+ADD --chown=1000:1000 app.py ./
 ADD --chown=1000:1000 fetcher/ fetcher/
 ADD --chown=1000:1000 migrations/ migrations/
-RUN pip install -r requirements.txt && rm -r /root/.cache
 
-ENV FLASK_APP="fetcher"
-ENV UPGRADE_DB="true"
+ENV UPGRADE_DB="false"
+ENV RUN_REDIS_WORKER="false"
+ENV REDIS_QUEUE_NAME="content-fetcher-tasks"
 ADD --chown=1000:1000 entrypoint.sh "/entrypoint.sh"
 ENTRYPOINT ["/entrypoint.sh"]
-CMD [ "python", "fetcher.py" ]
+CMD [ "python", "app.py" ]
 EXPOSE 5000
 
 USER "$USER"

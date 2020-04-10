@@ -9,12 +9,22 @@ Project in alpha stage.
 Requires Redis. Easiest way to provide Redis server is to use Docker:
 
 ```docker run redis -d -p 6379:6379```
+or
+```docker run redis -d --network host```
 
 ### Running with python
 
-Ensure all dependencies in requirements.txt are met. Then:
+Go to project root. Ensure all dependencies in requirements.txt are met:
 
-```python3 fetcher.py```
+```pip install -r requirements.txt```
+
+At least single RQ worker is needed. Run:
+
+```rq worker content-fetcher-tasks```
+
+Then start app:
+
+```python3 app.py```
 
 ### Running with docker
 
@@ -22,18 +32,23 @@ Ensure all dependencies in requirements.txt are met. Then:
 
 ```docker build -t fetcher .```
 
-#### Launch image
+#### Launch
 
 To provide persistence of data set ```STORAGE_DIR``` to some safe location.
-As Redis is required, the easiest way to run it using Docker is to run it with host network stack:
 
-```docker run -p 5000:5000 --network host -v $STORAGE_DIR:/storage fetcher```
+At least one Redis worker is needed. To run worker:
+
+```docker run --network host -v "$STORAGE_DIR":/storage -e RUN_REDIS_WORKER=true fetcher```
+
+To prepare database and launch application run:
+
+```docker run --network host -v $STORAGE_DIR:/storage -e UPGRADE_DB=true fetcher```
+
+Running containers with ```--network host``` is not necessary, that's just the easiest way to provide connection to Redis service.
 
 ### Running the tests
 
-Requires Redis. Easiest way to provide Redis server is to use Docker:
-
-```docker run redis -d -p 6379:6379```
+The tests use RQ in sync mode, so no workers are needed, but Redis service has to be available.
 
 ##### Launching tests
 
@@ -41,11 +56,10 @@ Requires Redis. Easiest way to provide Redis server is to use Docker:
 
 ## Important TODOs for production-readiness
 
- - Add security, provide somme basic user mechaism
+ - Add security, provide some basic user mechanism
  - Add more API endpoints allowing some content search and some convenience (would be nice to standarize API with Swagger)
  - Improve error handling
  - Add logging
- - Allow running Redis queue in async mode, switch to sync mode only for tests (already tested, beside tests async mode works fine)
  - Switch to some producion-ready HTTP server
  - Improve image scraping mechanism (handle more image src formats)
  - Implement some different storage than file system (e.g. HDFS, Amazon S3)

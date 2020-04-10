@@ -3,8 +3,6 @@
 """
 
 #TODO: add logger
-#TODO: make redis connection configurable
-#TODO: make redis queue is_async configurable, run sync only for tests
 
 from flask import Flask
 from flask_migrate import Migrate
@@ -24,6 +22,6 @@ migrate = Migrate(app, db)
 storage = get_storage(Config)
 
 app.redis = Redis()
-app.task_queue = Queue(Config.REDIS_QUEUE_NAME, connection=app.redis, is_async=False)
+app.task_queue = Queue(Config.REDIS_QUEUE_NAME, connection=app.redis)
 
 from fetcher import routes
