@@ -7,6 +7,7 @@ from flask import current_app
 import redis
 import rq
 
+
 class Site(db.Model):
     __tablename__ = 'Site'
     id = db.Column(db.Integer, primary_key=True)
@@ -32,6 +33,7 @@ class Site(db.Model):
     def get_task_in_progress(self, name):
         return Task.query.filter_by(name=name, user=self,
                                     complete=False).first()
+
 
 class Task(db.Model):
     __tablename__ = 'Task'

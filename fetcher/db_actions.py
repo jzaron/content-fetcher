@@ -5,7 +5,8 @@
 from fetcher.model.base import Site, Task
 from fetcher.model.content import Image, Text
 
-#TODO: maybe drop it and prepare methods in model classes
+# TODO: bind these methods to model classes
+
 
 class DbActions(object):
 
@@ -21,11 +22,9 @@ class DbActions(object):
 
     def get_text_by_id(self, text_id):
         try:
-            text_entry = self._db.session.query(Text).get(text_id)
+            return self._db.session.query(Text).get(text_id)
         except:
             return None
-        else:
-            return text_entry
 
     def put_image(self, site_entry, url):
         image_entry = Image(url = url)
@@ -36,11 +35,9 @@ class DbActions(object):
 
     def get_image_by_id(self, image_id):
         try:
-            image_entry = self._db.session.query(Image).get(image_id)
+            return self._db.session.query(Image).get(image_id)
         except:
             return None
-        else:
-            return image_entry
 
     def put_task(self, site_entry, task_id, category):
         task_entry = Task(id = task_id, category = category)
@@ -58,11 +55,9 @@ class DbActions(object):
 
     def get_task_by_id(self, task_id):
         try:
-            task_entry = self._db.session.query(Task).get(task_id)
+            return self._db.session.query(Task).get(task_id)
         except:
             return None
-        else:
-            return task_entry
 
     def get_or_put_site(self, url):
         site_entry = self.get_site_by_url(url)
@@ -80,8 +75,6 @@ class DbActions(object):
 
     def get_site_by_id(self, site_id):
         try:
-            site_entry = self._db.session.query(Site).get(site_id)
+            return self._db.session.query(Site).get(site_id)
         except:
             return None
-        else:
-            return site_entry

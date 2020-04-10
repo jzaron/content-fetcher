@@ -1,8 +1,8 @@
 """
-@author: kuba
+@author: jzaron
 """
 
-#TODO: add logger
+# TODO: add logger
 
 from flask import Flask
 from flask_migrate import Migrate

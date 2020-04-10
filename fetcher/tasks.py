@@ -7,6 +7,7 @@ from rq import get_current_job
 from fetcher import db, scraper, storage
 from fetcher.db_actions import DbActions
 
+
 def scrap_text(site_id, storage_path):
     dbactions = DbActions(db)
     job = get_current_job()
@@ -19,6 +20,7 @@ def scrap_text(site_id, storage_path):
     job.save_meta()
     task.finished = True
     db.session.commit()
+
 
 def scrap_images(site_id, storage_path_func):
     dbactions = DbActions(db)

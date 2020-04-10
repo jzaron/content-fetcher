@@ -2,9 +2,10 @@
 @author: jzaron
 """
 
-#TODO: extract common code
+# TODO: extract common code
 
 from fetcher import db
+
 
 class Text(db.Model):
     __tablename__ = 'Text'
@@ -14,6 +15,7 @@ class Text(db.Model):
 
     def __repr__(self):
         return f'<Text site_id:{self.site_id}>'
+
 
 class Image(db.Model):
     __tablename__ = 'Image'

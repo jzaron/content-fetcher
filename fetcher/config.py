@@ -5,6 +5,7 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__) + '/..')
 
+
 class Config(object):
     STORAGE_BASE_URL = os.environ.get('STORAGE_DIR') or \
         os.path.join(basedir, 'storage')

@@ -2,12 +2,14 @@
 @author: jzaron
 """
 
-#TODO: still many cases returned image URL is invalid
-#TODO: error handling (wrong URL, no access, etc.)
+# TODO: still many cases returned image URL is invalid
+# TODO: error handling (wrong URL, no access, etc.)
+# TODO: switch to urljoin from urllib.parse
 
 import re
 import requests
 from bs4 import BeautifulSoup
+
 
 def get_image_urls(site):
     response = requests.get(site)
@@ -26,6 +28,7 @@ def get_image_urls(site):
         if filename:
             result.append(url)
     return result
+
 
 def get_text(site):
     html = requests.get(site).text

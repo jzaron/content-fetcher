@@ -56,14 +56,13 @@ The tests use RQ in sync mode, so no workers are needed, but Redis service has t
 
 ## Important TODOs for production-readiness
 
+ - Switch to some production-ready HTTP server
+ - Improve image scraping mechanism (handle more ways images are embedded)
  - Add security, provide some basic user mechanism
- - Add more API endpoints allowing some content search and some convenience (would be nice to standarize API with Swagger)
+ - Add more API endpoints allowing some content search and some convenience (would be nice to standardize API with Swagger)
  - Improve error handling
  - Add logging
- - Switch to some producion-ready HTTP server
- - Improve image scraping mechanism (handle more image src formats)
  - Implement some different storage than file system (e.g. HDFS, Amazon S3)
- - Improve code quality
  - Write more tests
  - Reduce Docker image size
  - Write some docker-compose and Helm chart integrating application, Redis, and Redis workers
