@@ -51,12 +51,10 @@ class DbActions(object):
 
     def get_task_by_site_and_category(self, site_entry, category):
         try:
-            task_entry = self._db.session.query(Task).with_parent(site_entry).filter(
-                Task.category == category).one()
+            return self._db.session.query(Task).with_parent(site_entry).filter(
+                Task.category == category).one_or_none()
         except:
             return None
-        else:
-            return task_entry
 
     def get_task_by_id(self, task_id):
         try:
@@ -76,11 +74,9 @@ class DbActions(object):
     
     def  get_site_by_url(self, url):
         try:
-            site_entry = self._db.session.query(Site).filter(Site.url == url).one()
+            return self._db.session.query(Site).filter(Site.url == url).one_or_none()
         except:
             return None
-        else:
-            return site_entry
 
     def get_site_by_id(self, site_id):
         try:
