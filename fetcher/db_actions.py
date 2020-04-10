@@ -5,7 +5,11 @@
 from fetcher.model.base import Site, Task
 from fetcher.model.content import Image, Text
 
-# TODO: bind these methods to model classes
+# TODO: THIS IS TO REWORK
+# TODO: Such methods should be binded to model classes, they are for now like this because of the need to operate on db
+# in RQ tasks. The approach should be reworked to avoid any db actions in RQ tasks. In case of need to signalize a task
+# has finished, a HTTP request should be sent to the application using dedicated REST API endpoint, so only the
+# application will handle database operations.
 
 
 class DbActions(object):

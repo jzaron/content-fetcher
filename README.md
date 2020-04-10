@@ -14,7 +14,7 @@ or
 
 ### Running with python
 
-Go to project root. Ensure all dependencies in requirements.txt are met:
+Ensure all dependencies in requirements.txt are met:
 
 ```pip install -r requirements.txt```
 
@@ -52,12 +52,15 @@ The tests use RQ in sync mode, so no workers are needed, but Redis service has t
 
 ##### Launching tests
 
+Ensure ```pytest``` package is installed. Then:
+
 ```./run-tests.sh```
 
 ## Important TODOs for production-readiness
 
  - Switch to some production-ready HTTP server
  - Improve image scraping mechanism (handle more ways images are embedded)
+ - Rework the way RQ tasks work - avoid database operations there, just send HTTP requests signalizing task finishing
  - Add security, provide some basic user mechanism
  - Add more API endpoints allowing some content search and some convenience (would be nice to standardize API with Swagger)
  - Improve error handling

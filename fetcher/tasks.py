@@ -8,6 +8,12 @@ from fetcher import db, scraper, storage
 from fetcher.db_actions import DbActions
 
 
+# TODO: THIS IS TO REWORK
+# TODO: The approach should be reworked to avoid any db actions in RQ tasks. In case of need to signalize a task
+# has finished, a HTTP request should be sent to the application using dedicated REST API endpoint, so only the
+# application will handle database operations.
+
+
 def scrap_text(site_id, storage_path):
     dbactions = DbActions(db)
     job = get_current_job()
